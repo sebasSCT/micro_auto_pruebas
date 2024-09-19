@@ -1,6 +1,6 @@
-Feature: Operaciones generales
+Feature: listar Usuarios
 
-    Controlador para operaciones generales
+    Un administrador con credenciales desea listar los usuarios registrados
 
     Scenario: Yo como administrador deseo ver la lista de usuarios registrados
         Given Yo administrador con credenciales válidas
