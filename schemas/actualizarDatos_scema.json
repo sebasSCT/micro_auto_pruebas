@@ -1,0 +1,6 @@
+{
+    "codigo": "string",
+    "email": "string",
+    "nombre": "string",
+    "apellido": "string"
+  }
