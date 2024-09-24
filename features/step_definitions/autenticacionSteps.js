@@ -4,7 +4,7 @@ const assert = require('assert');
 const sinon = require('sinon');
 const Ajv = require('ajv');
 const ajv = new Ajv();
-const userSchema = require('./../../schemas/response_schema.json'); 
+const responseSchema = require('./../../schemas/response_schema.json'); 
 const decode = require('./../../decode');
 const { faker } = require('@faker-js/faker');
 
@@ -34,6 +34,10 @@ When('Invoco el sercivicio para inicio de sesion', async function () {
 Then('Inicio sesion correctamente', function () {
     // console.log(loginResponse);
     assert.strictEqual(loginResponse.error, false);
+
+    const validate = ajv.compile(responseSchema);
+    const valid = validate(loginResponse);
+    assert.strictEqual(valid, true);
 });
 
 //Scenario: Yo como usuario deseo recibir notificacion sobre un inicio fallido de sesion
@@ -41,6 +45,10 @@ Then('Inicio sesion correctamente', function () {
 Then('No puedo iniciar sesion', function () {
     // console.log(loginResponse);
     assert.strictEqual(loginResponse.error, true);
+
+    const validate = ajv.compile(responseSchema);
+    const valid = validate(loginResponse);
+    assert.strictEqual(valid, true);
 });
 
 
@@ -175,7 +183,7 @@ When('Invoco el servicio que permite el registro de nuevos usuarios con un usuar
 Then('No puedo registrarme', function () {
     assert.strictEqual(signResponse.error, true);
     
-    const validate = ajv.compile(userSchema);
+    const validate = ajv.compile(responseSchema);
     const valid = validate(signResponse);
     assert.strictEqual(valid, true);
 
@@ -188,12 +196,11 @@ Then('No puedo registrarme', function () {
 // Scenario: Registrar un usuario con datos aleatorios
 
 Given('Datos aleatorios para la creacion de un usuario', function () {
-    // Usar Faker.js para generar datos aleatorios
+    // Se utiliza Faker.js para generar datos aleatorios
     signRequest = {
         email: faker.internet.email(),
         password: faker.internet.password(),
         nombre: faker.person.firstName(),
         apellido: faker.person.lastName()  
     };
-    console.log(signRequest);
 });

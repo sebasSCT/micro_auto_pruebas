@@ -2,6 +2,7 @@ const { Given, When, Then } = require('@cucumber/cucumber');
 const axios = require('axios');
 const assert = require('assert');
 const sinon = require('sinon');
+const { faker } = require('@faker-js/faker');
 const decode = require('./../../decode');
 
 let loginRequest = {};
@@ -12,6 +13,8 @@ let signResponse = {};
 let updateRequest = {};
 let updateResponse = {};
 let userData = {};
+
+// Un usuario registrado y con sesion activa desea consultar informacion sobre su perfil
 
 Given('Soy un usuario registrado con credenciales, correo {string} y contraseña {string}', 
     function (email, password) {
@@ -155,8 +158,8 @@ When('Invoco el servicio para eliminar el usuario', async function () {
         signRequest = {
             email: loginRequest.email,
             password: loginRequest.password,
-            nombre: "borrar",
-            apellido: "borrar"
+            nombre: faker.person.firstName,
+            apellido: faker.person.lastName
         };
 
         try {
