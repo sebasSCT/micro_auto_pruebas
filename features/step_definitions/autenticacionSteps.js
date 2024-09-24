@@ -7,6 +7,10 @@ const ajv = new Ajv();
 const responseSchema = require('./../../schemas/response_schema.json'); 
 const decode = require('./../../decode');
 const { faker } = require('@faker-js/faker');
+require('dotenv').config();
+const url = process.env.BASE_URL;
+
+
 
 let loginRequest = {};
 let loginResponse = {};
@@ -24,7 +28,7 @@ Given('Yo usuario registrado inicio sesión con mis credenciales usuario {string
 
 When('Invoco el sercivicio para inicio de sesion', async function () {
     try {
-        const response = await axios.post('http://localhost:8084/api/auth/usuarios/login', loginRequest);
+        const response = await axios.post(`${url}/api/auth/usuarios/login`, loginRequest);
         loginResponse = response.data;
     } catch (error) {
         loginResponse = error.response.data;
@@ -75,7 +79,7 @@ When('Invoco el servicio que permite el registro de nuevos usuarios con un usuar
     deleteStub = sinon.stub(axios, 'delete');
     
     // Simulamos la respuesta del registro de usuario
-    postStub.withArgs('http://localhost:8084/api/auth/usuarios', signRequest).resolves({
+    postStub.withArgs(`${url}/api/auth/usuarios`, signRequest).resolves({
         data: {
             error: false,
             respuesta: { id: 'mocked-user-id' } // ID de usuario simulado
@@ -96,7 +100,7 @@ When('Invoco el servicio que permite el registro de nuevos usuarios con un usuar
     sinon.stub(decode, 'decodetoken').returns(userCode);
 
     // Simulamos la eliminación del usuario
-    deleteStub.withArgs(`http://localhost:8084/api/usuarios/${userCode}`, sinon.match.any).resolves({
+    deleteStub.withArgs(`${url}/api/usuarios/${userCode}`, sinon.match.any).resolves({
         data: {
             error: false,
             respuesta: "Usuario eliminado correctamente"
