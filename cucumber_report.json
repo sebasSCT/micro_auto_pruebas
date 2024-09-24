@@ -1,0 +1,468 @@
+[
+  {
+    "description": "    Un usuario registrado y con sesion activa desea actualizar los datos guardados en su registro",
+    "elements": [
+      {
+        "description": "",
+        "id": "actualizar-datos;yo-como-usuario-deseo-actualizar-mis-datos",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "Yo como usuario deseo actualizar mis datos",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "Soy usuario con las credenciales, correo \"hola@gmail\" y contraseña \"123\", deseo poder cambiar los datos, correo \"hola@gmail\", nombre \"hola\" y apellido \"adios\"",
+            "match": {
+              "location": "features\\step_definitions\\usuarioSteps.js:51"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2867400
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "Invoco el servicio de actualizar perfil de usuario",
+            "match": {
+              "location": "features\\step_definitions\\usuarioSteps.js:64"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 248913999
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "Los datos del perfil se actualizan correctamente",
+            "match": {
+              "location": "features\\step_definitions\\usuarioSteps.js:85"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 343800
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "actualizar-datos",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Actualizar datos",
+    "tags": [],
+    "uri": "features\\actualizarDatos.feature"
+  },
+  {
+    "description": "    Un usuario registrado y con sesion activa desea consultar informacion sobre su perfil",
+    "elements": [
+      {
+        "description": "",
+        "id": "consultar-informacion-de-usuario;yo-como-usuario-registrado-deseo-poder-consultar-mi-informacion-guardada",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "Yo como usuario registrado deseo poder consultar mi informacion guardada",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "Soy un usuario registrado con credenciales, correo \"hola@gmail\" y contraseña \"123\"",
+            "match": {
+              "location": "features\\step_definitions\\usuarioSteps.js:16"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 356699
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "Invoco el servicio de consulta de usuario",
+            "match": {
+              "location": "features\\step_definitions\\usuarioSteps.js:24"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 147677100
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "Obtengo correctamente los datos",
+            "match": {
+              "location": "features\\step_definitions\\usuarioSteps.js:44"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 390199
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "consultar-informacion-de-usuario",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Consultar informacion de usuario",
+    "tags": [],
+    "uri": "features\\consultarDatos.feature"
+  },
+  {
+    "description": "    Un usuario registrado y con sesion activa desea eliminar su usuario",
+    "elements": [
+      {
+        "description": "",
+        "id": "eliminar-usuario;yo-como-usuario-deseo-poder-eliminar-mi-cuenta",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "Yo como usuario deseo poder eliminar mi cuenta",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "Soy usuario con las credenciales, correo \"borrar@gmail\" y contraseña \"1234\"",
+            "match": {
+              "location": "features\\step_definitions\\usuarioSteps.js:96"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 275399
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "Invoco el servicio para eliminar el usuario",
+            "match": {
+              "location": "features\\step_definitions\\usuarioSteps.js:104"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 5996000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "Elimino el perfil de usuario correctamente",
+            "match": {
+              "location": "features\\step_definitions\\usuarioSteps.js:185"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 411399
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "eliminar-usuario",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Eliminar usuario",
+    "tags": [],
+    "uri": "features\\eliminarUsuario.feature"
+  },
+  {
+    "description": "  Un usuario registrado desea iniciar sesion con sus credenciales",
+    "elements": [
+      {
+        "description": "",
+        "id": "inicio-de-sesión;yo-como-usuario-registrado-quiero-poder-iniciar-sesion",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "Yo como usuario registrado quiero poder iniciar sesion",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "Yo usuario registrado inicio sesión con mis credenciales usuario \"hola@gmail\" y contraseña \"123\"",
+            "match": {
+              "location": "features\\step_definitions\\autenticacionSteps.js:17"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 335599
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "Invoco el sercivicio para inicio de sesion",
+            "match": {
+              "location": "features\\step_definitions\\autenticacionSteps.js:24"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 154056300
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "Inicio sesion correctamente",
+            "match": {
+              "location": "features\\step_definitions\\autenticacionSteps.js:33"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 469699
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "inicio-de-sesión;yo-como-usuario-deseo-recibir-notificacion-sobre-un-inicio-fallido-de-sesion",
+        "keyword": "Scenario",
+        "line": 10,
+        "name": "Yo como usuario deseo recibir notificacion sobre un inicio fallido de sesion",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "Yo usuario registrado inicio sesión con mis credenciales usuario \"hola@gmail\" y contraseña \"1234\"",
+            "match": {
+              "location": "features\\step_definitions\\autenticacionSteps.js:17"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 195000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 12,
+            "name": "Invoco el sercivicio para inicio de sesion",
+            "match": {
+              "location": "features\\step_definitions\\autenticacionSteps.js:24"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 143630400
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "No puedo iniciar sesion",
+            "match": {
+              "location": "features\\step_definitions\\autenticacionSteps.js:40"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 236899
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "inicio-de-sesión",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Inicio de sesión",
+    "tags": [],
+    "uri": "features\\inicioSesion.feature"
+  },
+  {
+    "description": "    Un administrador con credenciales desea listar los usuarios registrados",
+    "elements": [
+      {
+        "description": "",
+        "id": "listar-usuarios;yo-como-administrador-deseo-ver-la-lista-de-usuarios-registrados",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "Yo como administrador deseo ver la lista de usuarios registrados",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "Yo administrador con credenciales válidas",
+            "match": {
+              "location": "features\\step_definitions\\generalSteps.js:11"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 216600
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "invoco servicio para listar usuarios",
+            "match": {
+              "location": "features\\step_definitions\\generalSteps.js:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 25369200
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "Obtengo la respuesta con la lista de usuarios",
+            "match": {
+              "location": "features\\step_definitions\\generalSteps.js:24"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 254199
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "listar-usuarios",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "listar Usuarios",
+    "tags": [],
+    "uri": "features\\listarUsuarios.feature"
+  },
+  {
+    "description": "  Un usuario no registrado desea hacer un registro con sus datos",
+    "elements": [
+      {
+        "description": "",
+        "id": "registro;yo-como-usuario-no-registrado-quiero-poder-registrarme-con-mis-datos",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "Yo como usuario no registrado quiero poder registrarme con mis datos",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "Yo usuario no registrado envio mis datos correo \"registrar@gmail\", contraseña \"1234\", nombre \"registrar\" y apellido \"registrar\"",
+            "match": {
+              "location": "features\\step_definitions\\autenticacionSteps.js:52"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 354400
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "Invoco el servicio que permite el registro de nuevos usuarios con un usuario no existente",
+            "match": {
+              "location": "features\\step_definitions\\autenticacionSteps.js:63"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4962100
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "Me registro correctamente",
+            "match": {
+              "location": "features\\step_definitions\\autenticacionSteps.js:121"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 273299
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "registro;yo-como-usuario-no-registrado-deseo-recibir-notificacion-si-realizo-mal-el-registro",
+        "keyword": "Scenario",
+        "line": 10,
+        "name": "Yo como usuario no registrado deseo recibir notificacion si realizo mal el registro",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "Yo usuario no registrado envio mis datos correo \"hola@gmail\", contraseña \"123\", nombre \"hola\" y apellido \"perez\"",
+            "match": {
+              "location": "features\\step_definitions\\autenticacionSteps.js:52"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 217699
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 12,
+            "name": "Invoco el servicio que permite el registro de nuevos usuarios con un usuario existente",
+            "match": {
+              "location": "features\\step_definitions\\autenticacionSteps.js:133"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3735599
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "No puedo registrarme",
+            "match": {
+              "location": "features\\step_definitions\\autenticacionSteps.js:174"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 82841799
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "registro",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Registro",
+    "tags": [],
+    "uri": "features\\registro.feature"
+  }
+]

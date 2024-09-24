@@ -4,7 +4,7 @@ const assert = require('assert');
 const sinon = require('sinon');
 const Ajv = require('ajv');
 const ajv = new Ajv();
-const userSchema = require('./../../schemas/inicioSesion_schema.json'); 
+const userSchema = require('./../../schemas/response_schema.json'); 
 const decode = require('./../../decode');
 
 let loginRequest = {};

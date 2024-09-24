@@ -4,7 +4,8 @@
   "description": "pruebas automatizadas",
   "main": "index.js",
   "scripts": {
-    "test": "cucumber-js"
+    "test": "cucumber-js --format json:cucumber_report.json",
+    "report":"node reporter.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +17,7 @@
     "sinon": "^19.0.2"
   },
   "devDependencies": {
+    "cucumber-html-reporter": "^6.0.0",
     "jest": "^29.7.0"
   }
 }
