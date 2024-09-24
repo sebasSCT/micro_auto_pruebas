@@ -6,6 +6,7 @@ const Ajv = require('ajv');
 const ajv = new Ajv();
 const userSchema = require('./../../schemas/response_schema.json'); 
 const decode = require('./../../decode');
+const { faker } = require('@faker-js/faker');
 
 let loginRequest = {};
 let loginResponse = {};
@@ -182,4 +183,17 @@ Then('No puedo registrarme', function () {
     deleteStub.restore();
     decode.decodetoken.restore();
 
+});
+
+// Scenario: Registrar un usuario con datos aleatorios
+
+Given('Datos aleatorios para la creacion de un usuario', function () {
+    // Usar Faker.js para generar datos aleatorios
+    signRequest = {
+        email: faker.internet.email(),
+        password: faker.internet.password(),
+        nombre: faker.person.firstName(),
+        apellido: faker.person.lastName()  
+    };
+    console.log(signRequest);
 });

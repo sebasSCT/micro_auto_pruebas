@@ -19,7 +19,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 2867400
+              "duration": 3212899
             }
           },
           {
@@ -32,7 +32,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 248913999
+              "duration": 207016099
             }
           },
           {
@@ -45,7 +45,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 343800
+              "duration": 274999
             }
           }
         ],
@@ -80,7 +80,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 356699
+              "duration": 229699
             }
           },
           {
@@ -93,7 +93,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 147677100
+              "duration": 137640100
             }
           },
           {
@@ -106,7 +106,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 390199
+              "duration": 269199
             }
           }
         ],
@@ -141,7 +141,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 275399
+              "duration": 528699
             }
           },
           {
@@ -154,7 +154,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 5996000
+              "duration": 6960900
             }
           },
           {
@@ -167,7 +167,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 411399
+              "duration": 607700
             }
           }
         ],
@@ -198,11 +198,11 @@
             "line": 6,
             "name": "Yo usuario registrado inicio sesión con mis credenciales usuario \"hola@gmail\" y contraseña \"123\"",
             "match": {
-              "location": "features\\step_definitions\\autenticacionSteps.js:17"
+              "location": "features\\step_definitions\\autenticacionSteps.js:18"
             },
             "result": {
               "status": "passed",
-              "duration": 335599
+              "duration": 400799
             }
           },
           {
@@ -211,11 +211,11 @@
             "line": 7,
             "name": "Invoco el sercivicio para inicio de sesion",
             "match": {
-              "location": "features\\step_definitions\\autenticacionSteps.js:24"
+              "location": "features\\step_definitions\\autenticacionSteps.js:25"
             },
             "result": {
               "status": "passed",
-              "duration": 154056300
+              "duration": 105124400
             }
           },
           {
@@ -224,11 +224,11 @@
             "line": 8,
             "name": "Inicio sesion correctamente",
             "match": {
-              "location": "features\\step_definitions\\autenticacionSteps.js:33"
+              "location": "features\\step_definitions\\autenticacionSteps.js:34"
             },
             "result": {
               "status": "passed",
-              "duration": 469699
+              "duration": 530200
             }
           }
         ],
@@ -248,11 +248,11 @@
             "line": 11,
             "name": "Yo usuario registrado inicio sesión con mis credenciales usuario \"hola@gmail\" y contraseña \"1234\"",
             "match": {
-              "location": "features\\step_definitions\\autenticacionSteps.js:17"
+              "location": "features\\step_definitions\\autenticacionSteps.js:18"
             },
             "result": {
               "status": "passed",
-              "duration": 195000
+              "duration": 249800
             }
           },
           {
@@ -261,11 +261,11 @@
             "line": 12,
             "name": "Invoco el sercivicio para inicio de sesion",
             "match": {
-              "location": "features\\step_definitions\\autenticacionSteps.js:24"
+              "location": "features\\step_definitions\\autenticacionSteps.js:25"
             },
             "result": {
               "status": "passed",
-              "duration": 143630400
+              "duration": 105143900
             }
           },
           {
@@ -274,11 +274,11 @@
             "line": 13,
             "name": "No puedo iniciar sesion",
             "match": {
-              "location": "features\\step_definitions\\autenticacionSteps.js:40"
+              "location": "features\\step_definitions\\autenticacionSteps.js:41"
             },
             "result": {
               "status": "passed",
-              "duration": 236899
+              "duration": 206300
             }
           }
         ],
@@ -313,7 +313,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 216600
+              "duration": 157800
             }
           },
           {
@@ -326,7 +326,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 25369200
+              "duration": 15114499
             }
           },
           {
@@ -339,7 +339,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 254199
+              "duration": 402900
             }
           }
         ],
@@ -370,11 +370,11 @@
             "line": 6,
             "name": "Yo usuario no registrado envio mis datos correo \"registrar@gmail\", contraseña \"1234\", nombre \"registrar\" y apellido \"registrar\"",
             "match": {
-              "location": "features\\step_definitions\\autenticacionSteps.js:52"
+              "location": "features\\step_definitions\\autenticacionSteps.js:53"
             },
             "result": {
               "status": "passed",
-              "duration": 354400
+              "duration": 335600
             }
           },
           {
@@ -383,11 +383,11 @@
             "line": 7,
             "name": "Invoco el servicio que permite el registro de nuevos usuarios con un usuario no existente",
             "match": {
-              "location": "features\\step_definitions\\autenticacionSteps.js:63"
+              "location": "features\\step_definitions\\autenticacionSteps.js:64"
             },
             "result": {
               "status": "passed",
-              "duration": 4962100
+              "duration": 2435999
             }
           },
           {
@@ -396,11 +396,11 @@
             "line": 8,
             "name": "Me registro correctamente",
             "match": {
-              "location": "features\\step_definitions\\autenticacionSteps.js:121"
+              "location": "features\\step_definitions\\autenticacionSteps.js:122"
             },
             "result": {
               "status": "passed",
-              "duration": 273299
+              "duration": 197099
             }
           }
         ],
@@ -420,11 +420,11 @@
             "line": 11,
             "name": "Yo usuario no registrado envio mis datos correo \"hola@gmail\", contraseña \"123\", nombre \"hola\" y apellido \"perez\"",
             "match": {
-              "location": "features\\step_definitions\\autenticacionSteps.js:52"
+              "location": "features\\step_definitions\\autenticacionSteps.js:53"
             },
             "result": {
               "status": "passed",
-              "duration": 217699
+              "duration": 169499
             }
           },
           {
@@ -433,11 +433,11 @@
             "line": 12,
             "name": "Invoco el servicio que permite el registro de nuevos usuarios con un usuario existente",
             "match": {
-              "location": "features\\step_definitions\\autenticacionSteps.js:133"
+              "location": "features\\step_definitions\\autenticacionSteps.js:134"
             },
             "result": {
               "status": "passed",
-              "duration": 3735599
+              "duration": 3816399
             }
           },
           {
@@ -446,11 +446,61 @@
             "line": 13,
             "name": "No puedo registrarme",
             "match": {
-              "location": "features\\step_definitions\\autenticacionSteps.js:174"
+              "location": "features\\step_definitions\\autenticacionSteps.js:175"
             },
             "result": {
               "status": "passed",
-              "duration": 82841799
+              "duration": 59329400
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "registro;registrar-un-usuario-con-datos-aleatorios",
+        "keyword": "Scenario",
+        "line": 15,
+        "name": "Registrar un usuario con datos aleatorios",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 16,
+            "name": "Datos aleatorios para la creacion de un usuario",
+            "match": {
+              "location": "features\\step_definitions\\autenticacionSteps.js:190"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9880700
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 17,
+            "name": "Invoco el servicio que permite el registro de nuevos usuarios con un usuario no existente",
+            "match": {
+              "location": "features\\step_definitions\\autenticacionSteps.js:64"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3195099
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 18,
+            "name": "Me registro correctamente",
+            "match": {
+              "location": "features\\step_definitions\\autenticacionSteps.js:122"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 394800
             }
           }
         ],

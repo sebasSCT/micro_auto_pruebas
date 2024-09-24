@@ -11,3 +11,8 @@ Feature: Registro
     Given Yo usuario no registrado envio mis datos correo "hola@gmail", contraseña "123", nombre "hola" y apellido "perez"
     When Invoco el servicio que permite el registro de nuevos usuarios con un usuario existente
     Then No puedo registrarme
+
+   Scenario: Registrar un usuario con datos aleatorios
+    Given Datos aleatorios para la creacion de un usuario
+    When Invoco el servicio que permite el registro de nuevos usuarios con un usuario no existente
+    Then Me registro correctamente
