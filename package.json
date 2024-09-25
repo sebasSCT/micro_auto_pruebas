@@ -4,7 +4,7 @@
   "description": "pruebas automatizadas",
   "main": "index.js",
   "scripts": {
-    "test": "cucumber-js --format json:cucumber_report.json",
+    "test": "cucumber-js --format json:./reports/cucumber_report.json",
     "report": "node reporter.js"
   },
   "author": "",

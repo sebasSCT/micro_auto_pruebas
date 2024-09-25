@@ -4,6 +4,11 @@ const assert = require('assert');
 const sinon = require('sinon');
 const { faker } = require('@faker-js/faker');
 const decode = require('./../../decode');
+const Ajv = require('ajv');
+const ajv = new Ajv();
+const responseSchema = require('./../../schemas/response_schema.json'); 
+require('dotenv').config();
+const url = process.env.BASE_URL;
 
 let loginRequest = {};
 let loginResponse = {};
@@ -14,7 +19,7 @@ let updateRequest = {};
 let updateResponse = {};
 let userData = {};
 
-// Un usuario registrado y con sesion activa desea consultar informacion sobre su perfil
+// Scenario: Un usuario registrado y con sesion activa desea consultar informacion sobre su perfil
 
 Given('Soy un usuario registrado con credenciales, correo {string} y contraseña {string}', 
     function (email, password) {
@@ -27,7 +32,7 @@ Given('Soy un usuario registrado con credenciales, correo {string} y contraseña
 When('Invoco el servicio de consulta de usuario', async function (){
     
     try {
-        loginResponse = (await axios.post('http://localhost:8084/api/auth/usuarios/login', loginRequest)).data;
+        loginResponse = (await axios.post(`${url}/api/auth/usuarios/login`, loginRequest)).data;
         const token = loginResponse.respuesta.token;
         const headers = {
             headers: {
@@ -35,7 +40,7 @@ When('Invoco el servicio de consulta de usuario', async function (){
             }
         };
         const userCode = decode.decodetoken(token);
-        findResponse = (await axios.get(`http://localhost:8084/api/usuarios/${userCode}`, headers)).data;
+        findResponse = (await axios.get(`${url}/api/usuarios/${userCode}`, headers)).data;
 
     } catch (error) {
         loginResponse = error.response.data;
@@ -67,7 +72,7 @@ Given('Soy usuario con las credenciales, correo {string} y contraseña {string},
 When('Invoco el servicio de actualizar perfil de usuario', async function (){
 
     try {
-        loginResponse = (await axios.post('http://localhost:8084/api/auth/usuarios/login', loginRequest)).data;
+        loginResponse = (await axios.post(`${url}/api/auth/usuarios/login`, loginRequest)).data;
         const token = loginResponse.respuesta.token;
         const headers = {
             headers: {
@@ -76,7 +81,7 @@ When('Invoco el servicio de actualizar perfil de usuario', async function (){
         };
         const userCode = decode.decodetoken(token);
         updateRequest = {codigo:userCode, email:userData.email, nombre:userData.nombre, apellido:userData.apellido};
-        updateResponse = (await axios.put(`http://localhost:8084/api/usuarios/${userCode}`, updateRequest, headers)).data;
+        updateResponse = (await axios.put(`${url}/api/usuarios/${userCode}`, updateRequest, headers)).data;
     
     } catch (error) {
         loginResponse = error.response.data;
@@ -110,7 +115,7 @@ When('Invoco el servicio para eliminar el usuario', async function () {
     deleteStub = sinon.stub(axios, 'delete');
 
     // Simulamos la respuesta del login (usuario ya existe)
-    postStub.withArgs('http://localhost:8084/api/auth/usuarios/login', loginRequest).resolves({
+    postStub.withArgs(`${url}/api/auth/usuarios/login`, loginRequest).resolves({
         data: {
             respuesta: { token: 'mocked-jwt-token' },
             error: false
@@ -119,7 +124,7 @@ When('Invoco el servicio para eliminar el usuario', async function () {
 
     // Simulamos la creación del usuario si no existe
     const signRequestMock = { email: loginRequest.email, password: loginRequest.password, nombre: "borrar", apellido: "borrar" };
-    postStub.withArgs('http://localhost:8084/api/auth/usuarios', signRequestMock).resolves({
+    postStub.withArgs(`${url}/api/auth/usuarios`, signRequestMock).resolves({
         data: {
             respuesta: { id: 12345 },
             error: false
@@ -127,7 +132,7 @@ When('Invoco el servicio para eliminar el usuario', async function () {
     });
 
     // Simulamos el login después de la creación del usuario
-    postStub.withArgs('http://localhost:8084/api/auth/usuarios/login', loginRequest).resolves({
+    postStub.withArgs(`${url}/api/auth/usuarios/login`, loginRequest).resolves({
         data: {
             respuesta: { token: 'mocked-jwt-token' },
             error: false
@@ -141,7 +146,7 @@ When('Invoco el servicio para eliminar el usuario', async function () {
     sinon.stub(decode, 'decodetoken').returns(userCode);
 
     // Simulamos la eliminación del usuario
-    deleteStub.withArgs(`http://localhost:8084/api/usuarios/${userCode}`, sinon.match.any).resolves({
+    deleteStub.withArgs(`${url}/api/usuarios/${userCode}`, sinon.match.any).resolves({
         data: {
             error: false
         }
@@ -149,7 +154,7 @@ When('Invoco el servicio para eliminar el usuario', async function () {
 
     // Lógica de las llamadas POST y DELETE
     try {
-        loginResponse = (await axios.post('http://localhost:8084/api/auth/usuarios/login', loginRequest)).data;
+        loginResponse = (await axios.post(`${url}/api/auth/usuarios/login`, loginRequest)).data;
     } catch (error) {
         loginResponse = error.response.data;
     }
@@ -163,8 +168,8 @@ When('Invoco el servicio para eliminar el usuario', async function () {
         };
 
         try {
-            signResponse = (await axios.post('http://localhost:8084/api/auth/usuarios', signRequest)).data;
-            loginResponse = (await axios.post('http://localhost:8084/api/auth/usuarios/login', loginRequest)).data;
+            signResponse = (await axios.post(`${url}/api/auth/usuarios`, signRequest)).data;
+            loginResponse = (await axios.post(`${url}/api/auth/usuarios/login`, loginRequest)).data;
         } catch (error) {
             signResponse = error.response.data;
             loginResponse = error.response.data;
@@ -179,7 +184,7 @@ When('Invoco el servicio para eliminar el usuario', async function () {
             }
         };
 
-        deleteResponse = (await axios.delete(`http://localhost:8084/api/usuarios/${userCode}`, headers)).data;
+        deleteResponse = (await axios.delete(`${url}/api/usuarios/${userCode}`, headers)).data;
     } catch (error) {
         deleteResponse = error.response.data;
     }

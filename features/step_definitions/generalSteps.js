@@ -2,6 +2,8 @@ const { Given, When, Then } = require('@cucumber/cucumber');
 const axios = require('axios');
 const assert = require('assert');
 const { isAsyncFunction } = require('util/types');
+require('dotenv').config();
+const url = process.env.BASE_URL;
 
 let listRequest = {};
 let listResponse = {};
@@ -14,7 +16,7 @@ Given('Yo administrador con credenciales válidas', function () {
 
 When('invoco servicio para listar usuarios', async function (){
     try {
-        const response = await axios.get('http://localhost:8084/api/general/usuarios', listRequest);
+        const response = await axios.get(`${url}/api/general/usuarios`, listRequest);
         listResponse = response.data;
     } catch (error) {
         listResponse = error.response.data;

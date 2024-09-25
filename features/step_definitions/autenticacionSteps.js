@@ -10,12 +10,11 @@ const { faker } = require('@faker-js/faker');
 require('dotenv').config();
 const url = process.env.BASE_URL;
 
-
-
 let loginRequest = {};
 let loginResponse = {};
 let signRequest = {};
 let signResponse = {};
+let response = {};
 
 //Scenario: Yo como usuario registrado quiero poder iniciar sesion
 
@@ -28,20 +27,16 @@ Given('Yo usuario registrado inicio sesión con mis credenciales usuario {string
 
 When('Invoco el sercivicio para inicio de sesion', async function () {
     try {
-        const response = await axios.post(`${url}/api/auth/usuarios/login`, loginRequest);
-        loginResponse = response.data;
+        loginResponse = (await axios.post(`${url}/api/auth/usuarios/login`, loginRequest)).data;
     } catch (error) {
         loginResponse = error.response.data;
     }
+    response = loginResponse;
 });
 
 Then('Inicio sesion correctamente', function () {
     // console.log(loginResponse);
     assert.strictEqual(loginResponse.error, false);
-
-    const validate = ajv.compile(responseSchema);
-    const valid = validate(loginResponse);
-    assert.strictEqual(valid, true);
 });
 
 //Scenario: Yo como usuario deseo recibir notificacion sobre un inicio fallido de sesion
@@ -49,10 +44,6 @@ Then('Inicio sesion correctamente', function () {
 Then('No puedo iniciar sesion', function () {
     // console.log(loginResponse);
     assert.strictEqual(loginResponse.error, true);
-
-    const validate = ajv.compile(responseSchema);
-    const valid = validate(loginResponse);
-    assert.strictEqual(valid, true);
 });
 
 
@@ -88,7 +79,7 @@ When('Invoco el servicio que permite el registro de nuevos usuarios con un usuar
 
     // Simulamos el login del usuario registrado
     loginRequest = { email: signRequest.email, password: signRequest.password };
-    postStub.withArgs('http://localhost:8084/api/auth/usuarios/login', loginRequest).resolves({
+    postStub.withArgs(`${url}/api/auth/usuarios/login`, loginRequest).resolves({
         data: {
             error: false,
             respuesta: { token: 'mocked-jwt-token' } // Token JWT simulado
@@ -109,7 +100,7 @@ When('Invoco el servicio que permite el registro de nuevos usuarios con un usuar
 
     // Registro del usuario
     try {
-        signResponse = (await axios.post('http://localhost:8084/api/auth/usuarios', signRequest)).data;
+        signResponse = (await axios.post(`${url}/api/auth/usuarios`, signRequest)).data;
     } catch (error) {
         signResponse = error.response.data;
     }
@@ -117,18 +108,19 @@ When('Invoco el servicio que permite el registro de nuevos usuarios con un usuar
     // Si no hubo error en el registro, simulamos el login y la eliminación del usuario
     if (!signResponse.error) {
         try {
-            loginResponse = (await axios.post('http://localhost:8084/api/auth/usuarios/login', loginRequest)).data;
+            loginResponse = (await axios.post(`${url}/api/auth/usuarios/login`, loginRequest)).data;
 
             // Crear los headers para la eliminación usando el token simulado
             const headers = { headers: { Authorization: `Bearer ${loginResponse.respuesta.token}` } };
 
             // Eliminar el usuario con el token
-            deleteResponse = (await axios.delete(`http://localhost:8084/api/usuarios/${userCode}`, headers)).data;
+            deleteResponse = (await axios.delete(`${url}/api/usuarios/${userCode}`, headers)).data;
         } catch (error) {
             loginResponse = error.response.data;
             deleteResponse = error.response.data;
         }
     }
+    respone = signResponse;
 });
 
 Then('Me registro correctamente', function () {
@@ -149,7 +141,7 @@ When('Invoco el servicio que permite el registro de nuevos usuarios con un usuar
      deleteStub = sinon.stub(axios, 'delete');
  
      // Simulamos un escenario donde el usuario ya está registrado
-     postStub.withArgs('http://localhost:8084/api/auth/usuarios', signRequest).resolves({
+     postStub.withArgs(`${url}/api/auth/usuarios`, signRequest).resolves({
          data: {
              error: true,
              respuesta: 'El usuario ya está registrado'  // Mensaje de error simulado
@@ -158,7 +150,7 @@ When('Invoco el servicio que permite el registro de nuevos usuarios con un usuar
  
      // Simulamos el login del usuario registrado (si fuera necesario para pruebas futuras)
      loginRequest = { email: signRequest.email, password: signRequest.password };
-     postStub.withArgs('http://localhost:8084/api/auth/usuarios/login', loginRequest).resolves({
+     postStub.withArgs(`${url}/api/auth/usuarios/login`, loginRequest).resolves({
          data: {
              error: false,
              respuesta: { token: 'mocked-jwt-token' } // Token JWT simulado
@@ -170,7 +162,7 @@ When('Invoco el servicio que permite el registro de nuevos usuarios con un usuar
      sinon.stub(decode, 'decodetoken').returns(userCode);
  
      // Simulamos la eliminación del usuario (si llegara a necesitarse)
-     deleteStub.withArgs(`http://localhost:8084/api/usuarios/${userCode}`, sinon.match.any).resolves({
+     deleteStub.withArgs(`${url}/api/usuarios/${userCode}`, sinon.match.any).resolves({
          data: {
              error: false
          }
@@ -178,23 +170,19 @@ When('Invoco el servicio que permite el registro de nuevos usuarios con un usuar
  
      // Intento de registro del usuario (en este caso fallará porque ya está registrado)
      try {
-         signResponse = (await axios.post('http://localhost:8084/api/auth/usuarios', signRequest)).data;
+         signResponse = (await axios.post(`${url}/api/auth/usuarios`, signRequest)).data;
      } catch (error) {
          signResponse = error.response.data;
      }
+     response = signResponse;
 });
 
 Then('No puedo registrarme', function () {
     assert.strictEqual(signResponse.error, true);
-    
-    const validate = ajv.compile(responseSchema);
-    const valid = validate(signResponse);
-    assert.strictEqual(valid, true);
 
     postStub.restore();
     deleteStub.restore();
     decode.decodetoken.restore();
-
 });
 
 // Scenario: Registrar un usuario con datos aleatorios
@@ -207,4 +195,12 @@ Given('Datos aleatorios para la creacion de un usuario', function () {
         nombre: faker.person.firstName(),
         apellido: faker.person.lastName()  
     };
+});
+
+//And El esquema de la respuesta es correcto
+
+Then('El esquema de la respuesta es correcto', function () {
+    const validate = ajv.compile(responseSchema);
+    const valid = validate(response);
+    assert.strictEqual(valid, true);
 });
