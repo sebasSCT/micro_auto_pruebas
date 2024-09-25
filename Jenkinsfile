@@ -33,7 +33,14 @@ pipeline {
 
     post {
         always {
-            cucumber fileIncludePattern: './reports/cucumber_report.html'
+            publishHTML([
+                allowMissing: false, 
+                alwaysLinkToLastBuild: true, 
+                keepAll: true,  
+                reportDir: 'reports',  
+                reportFiles: 'cucumber_report.html',  
+                reportName: 'Cucumber JS Test Report' 
+            ])
         }
     }
 }
