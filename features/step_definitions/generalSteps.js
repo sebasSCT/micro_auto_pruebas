@@ -21,9 +21,10 @@ When('invoco servicio para listar usuarios', async function (){
     } catch (error) {
         listResponse = error.response.data;
     }
+
 });
 
 Then ('Obtengo la respuesta con la lista de usuarios', function (){
-    // console.log(listResponse);
+    console.log(response);
     assert.notEqual(listResponse.content, null);
 });
