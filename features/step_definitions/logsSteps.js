@@ -3,6 +3,8 @@ const axios = require('axios');
 const assert = require('assert');
 require('dotenv').config();
 const url = 'http://localhost:3100/loki/api/v1/query_range';
+const Docker = require('dockerode');
+const docker = new Docker();
 
 let params = {};
 let logResponse = {};
@@ -45,10 +47,23 @@ Then ('Obtengo todos los logs del sistema', function (){
 
 //Scenario: Yo quiero consultar los logs relacionados con el contenedor de loki
 
-Given ('Parametros validos con el id del contenedor {string}', function (container_id){
+Given('Parametros validos con el nombre completo del contenedor {string}', async function (full_container_name) {
+    const containers = await docker.listContainers();
+
+
+    const container = containers.find((cont) => {
+        return cont.Names.some((name) => name === `/${full_container_name}`);
+    });
+
+    if (!container) {
+        throw new Error(`No se encontró el contenedor con nombre: ${full_container_name}`);
+    }
+
+    const containerId = container.Id;
+
     params = {
-        query: `{job="docker", filename="/var/lib/docker/containers/${container_id}/${container_id}-json.log"}`,
-        start: 1727758800,
+        query: `{job="docker", filename="/var/lib/docker/containers/${containerId}/${containerId}-json.log"}`,
+        start: 1727758800,  // Ajusta estos valores según tu necesidad
         end: 1730350800,
         limit: 100,
     };
@@ -84,21 +99,42 @@ Given ('Parametros validos con la fecha del día {string}', function (fecha_){
 });
 
 Then('Obtengo los logs en el rango esperado', function (){
+    const logLines = logs.split('\n');
+    let allLogsInRange = true;
 
-    const logJsonString = logs.substring(logs.indexOf('Log: ') + 5).trim();
+    for (const line of logLines) {
+        if (line.trim() === '') continue;
 
-    // Convertir el string JSON en un objeto
-    const logObject = JSON.parse(logJsonString);
+        const logParts = line.split('Log: ');
+        if (logParts.length < 2) continue;
 
-    // Extraer la parte anidada dentro de la clave "log"
-    const nestedLog = JSON.parse(logObject.log);
+        let logObject;
+        try {
+            logObject = JSON.parse(logParts[1]);
+        } catch (e) {
+            console.error('Error parseando log JSON:', e);
+            console.error('Problema en la linea log :', line);
+            continue;
+        }
 
-    // Acceder al timestamp
-    const timestamp = nestedLog.attr.message.ts_sec;
+        if (!logObject.log) {
+            console.warn('El objeto Log no contiene la propiedad "log":', logObject);
+            continue;
+        }
 
-    const inicioRango = unixTimestamp;
-    const finRango = unixTimestamp_end;
+        const tsMatch = logObject.log.match(/ts=(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z)/);
+        if (!tsMatch) {
+            console.warn('No se puede encontrar el timestamp en el log:', logObject.log);
+            continue;
+        }
 
-    assert.equal((timestamp >= inicioRango && timestamp <= finRango), true)
+        const timestamp = new Date(tsMatch[1]).getTime() / 1000; // Convert to Unix timestamp
 
+        if (timestamp < unixTimestamp || timestamp > unixTimestamp_end) {
+            allLogsInRange = false;
+            break;
+        }
+    }
+
+    assert.equal(allLogsInRange, true, '\n' + 'Algunos registros están fuera del rango de tiempo esperado');
 });
