@@ -7,6 +7,7 @@ const docker = new Docker();
 
 const url = 'http://localhost:3100/loki/api/v1/query_range';
 const urlCrud = process.env.BASE_URL;
+const cont_crud = process.env.CONT_CRUD;
 
 let loginRequest = {};
 let loginResponse = {};
@@ -38,11 +39,11 @@ Then('se registra un log de inicio de sesión en el sistema de logs', async func
     const containers = await docker.listContainers();
 
     const container = containers.find((cont) => {
-        return cont.Names.some((name) => name === `/micro_taller_logs-app-crud-1`);
+        return cont.Names.some((name) => name === `/${cont_crud}`);
     });
 
     if (!container) {
-        throw new Error(`No se encontró el contenedor con nombre: micro_taller_logs-app-crud-1`);
+        throw new Error(`No se encontró el contenedor con nombre: ${cont_crud}`);
     }
 
     const containerId = container.Id;
@@ -59,26 +60,26 @@ Then('se registra un log de inicio de sesión en el sistema de logs', async func
         const logs = response.data.data.result;
 
         // Print the entire response
-        console.log('Logs response:', JSON.stringify(logs, null, 2));
+        // console.log('Logs response:', JSON.stringify(logs, null, 2));
 
         if (logs.length > 0) {
             const lastLog = logs[logs.length - 1];
-            console.log('Last log entry:', lastLog);
+            // console.log('Last log entry:', lastLog);
 
             // Check if the last log contains the email
             const logContainsEmail = lastLog.values.some(value =>
                 value[1].toLowerCase().includes(loginRequest.email.toLowerCase())
             );
 
-            console.log(`Log contains email (${loginRequest.email}):`, logContainsEmail);
+            // console.log(`Log contains email (${loginRequest.email}):`, logContainsEmail);
 
             assert.strictEqual(logContainsEmail, true, 'El último log debe contener el email del usuario que inició sesión');
         } else {
-            console.log('No se encontraron logs');
+            // console.log('No se encontraron logs');
             assert.fail('No se encontraron logs');
         }
     } catch (error) {
-        console.error('Error al obtener los logs:', error);
+        // console.error('Error al obtener los logs:', error);
         throw error;
     }
 });

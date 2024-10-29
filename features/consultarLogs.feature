@@ -8,12 +8,12 @@ Feature: Consulta de logs centralizados
         Then Obtengo todos los logs del sistema
 
     Scenario: Yo quiero consultar los logs relacionados con el contenedor de loki
-        Given Parametros validos con el nombre completo del contenedor "micro_taller_logs-loki-1"
+        Given Parametros validos con el nombre completo del contenedor "observabilidad-loki-1"
         When Invoco el servicio para consultar los logs
         Then Obtengo todos los logs del sistema
 
     Scenario: Yo quiero consultar los logs relacionados con el contenedor de app-crud
-        Given Parametros validos con el nombre completo del contenedor "micro_taller_logs-app-crud-1"
+        Given Parametros validos con el nombre completo del contenedor "observabilidad-app-crud-1"
         When Invoco el servicio para consultar los logs
         Then Obtengo todos los logs del sistema
         And Obtengo los logs relacionados con el contenedor app-crud
