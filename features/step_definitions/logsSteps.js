@@ -2,7 +2,7 @@ const { Given, When, Then } = require('@cucumber/cucumber');
 const axios = require('axios');
 const assert = require('assert');
 require('dotenv').config();
-const url = 'http://localhost:3100/loki/api/v1/query_range';
+const url = `${process.env.LOKI_URL}/loki/api/v1/query_range`;
 const Docker = require('dockerode');
 const docker = new Docker();
 

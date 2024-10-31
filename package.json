@@ -4,7 +4,8 @@
   "description": "pruebas automatizadas",
   "main": "index.js",
   "scripts": {
-    "test": "cucumber-js --format json:./reports/cucumber_report.json",
+    "test_1": "cucumber-js --tags \"not @final\" --format json:./reports/cucumber_report.json",
+    "test_2": "cucumber-js --tags \"@final\" --format json:./reports/cucumber_report.json",
     "report": "node reporter.js"
   },
   "author": "",
