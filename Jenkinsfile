@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'jenkins', url: 'https://github.com/sebasSCT/micro_auto_pruebas.git'
+                git branch: 'proyectofinal', url: 'https://github.com/sebasSCT/micro_auto_pruebas.git'
             }
         }
         
@@ -20,7 +20,8 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'npm run test'  
+                sh 'npm run test_1',
+                sh 'npm run test_2'  
             }
         }
 
