@@ -1,6 +1,6 @@
 const Ajv = require('ajv');
 const ajv = new Ajv();
-const userSchema = require('./user-schema.json'); 
+const userSchema = require('./user-schema.json');
 
 function validateUser(data) {
   const validate = ajv.compile(userSchema);

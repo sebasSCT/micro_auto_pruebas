@@ -28,9 +28,9 @@ let logs = {};
 let containerName = {};
 let containerId = {};
 
-// Scenario: Se desea registrar un usuario y comprobar el funcionamiento de los servicios
+// Scenario: Se desea registrar un usuario y comprobar el funcionamiento de los servicios de bases de datos y logs centralizados
 
-Given('usuario con sus datos, correo {string} contraseña {string}, nombre {string} y apellido {string}', 
+Given('Usuario con sus datos, correo {string}, contraseña {string}, nombre {string} y apellido {string}', 
     function (email, password, name, lastname) {
         let numeroAleatorio = Math.floor(Math.random() * (9999 - 1 + 1)) + 1;
         email = email + numeroAleatorio;
@@ -46,7 +46,7 @@ Given('usuario con sus datos, correo {string} contraseña {string}, nombre {stri
     };
 });
 
-When('Invoco el servicio que permite el registro de nuevos usuarios', async function(){
+When('Uso la api del servicio app-crud para registrar un nuevo usuario', async function(){
     try {
         signResponse = (await axios.post(`${url_crud}/api/auth/usuarios`, signRequest)).data;
 
@@ -84,23 +84,23 @@ When('Invoco el servicio que permite el registro de nuevos usuarios', async func
     };
 });
 
-Then ('El usuario es registrado correctamente', function (){
+Then ('El usuario es registrado correctamente en la base datos', function (){
     // console.log(loginResponse);
     assert.strictEqual(loginResponse.error, false);
 });
 
-Then ('Se genera un registro en loki', function (){
+Then ('Se generar un log correspondiente al registro en el servicio de logs centralizados', function (){
     // console.log(monitoreoResponse);
     assert.notEqual(logs, null);
 });
 
-// Scenario: Se quiere verificar el funcionamiento del sistema de monitoreo
+// Scenario: Se quiere verificar el funcionamiento del sistema de monitoreo cuando un servicio es detenido
 
-Given ('El contenedor {string}', function(container){
+Given ('El contenedor con el nombre {string} ejecutandose', function(container){
     containerName = container;
 });
 
-When ('Se detiene la ejecucion del contenedor', async function(){
+When ('Se invoca la función que permite detener la ejecución del contenedor', async function(){
     const containers = await docker.listContainers();
     const container = containers.find((cont) => {
         return cont.Names.some((name) => name === `/${containerName}`);
@@ -115,7 +115,7 @@ When ('Se detiene la ejecucion del contenedor', async function(){
     }
 });
 
-Then ('Se consulta el estado del contenedor', async function(){
+Then ('El servicio de monitoreo retorna informacion sobre el contenedor', async function(){
     
     monitoreoRequest = `up{instance="${crud_name}:${instancia}", job="${crud_name}"}`;
     try {
@@ -126,7 +126,7 @@ Then ('Se consulta el estado del contenedor', async function(){
     assert.equal(monitoreoResponse.status, 'success');
 });
 
-Then ('Se obtiene el estado del contenedor en 0', async function(){
+Then ('El servicio de monitoreo retorna el estado up del contenedor en 0', async function(){
     await esperar(2000);
 
     assert.equal(monitoreoResponse.data.result[0].value[1], '0');

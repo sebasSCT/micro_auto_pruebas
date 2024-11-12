@@ -6,9 +6,9 @@ const url = process.env.NOTIFICATION_URL;
 let notificationRequest = {};
 let notificationResponse = {};
 
-// Scenario: Yo quiero enviar una notificacion a el servicio de notificaciones
+// Scenario: Quiero enviar una notificacion para el servicio de notificaciones
 
-Given('Tengo el mensaje {string} y el correo {string}', 
+Given('El mensaje {string} para el usuario con el correo {string}', 
     function (message, email) {
     notificationRequest = {
         email: email,
@@ -16,7 +16,7 @@ Given('Tengo el mensaje {string} y el correo {string}',
     };
 });
 
-When('Invoco el servicio para enviar notificaciones', async function(){
+When('Uso la api del servicio para enviar una notificacion a un usuario', async function(){
     try {
         notificationResponse = await axios.post(`${url}/send`, notificationRequest, {timeout:20000});
     } catch (error) {
@@ -25,18 +25,18 @@ When('Invoco el servicio para enviar notificaciones', async function(){
 });
 
 
-Then ('Se confirma el envio de la notificacion', function (){
+Then ('Se confirma el envio de la notificacion a el usuario', function (){
     // console.log(notificationResponse);
     assert.equal(notificationResponse.status, 200);
 });
 
-// Scenario: Yo quiero verificar todas las notificaciones guardadas
+// Quiero consultar todas la notificaciones enviadas y almacenadas en el servicio de notificaciones
 
-Given('Parametros validos para la consulta', 
+Given('Parametros validos para la consulta a la api del servicio', 
     function () {} 
 );
 
-When('Invoco el servicio para obtener las notificaciones', async function(){
+When('Uso la api del servicio para la consulta de todas las notifiaciones', async function(){
     try {
         notificationResponse = await axios.post(`${url}/notification`);
     } catch (error) {
@@ -44,7 +44,7 @@ When('Invoco el servicio para obtener las notificaciones', async function(){
     };
 });
 
-Then ('Se recibe la lista de notificaciones', function (){
+Then ('Se recibe la lista con todas notificaciones guardadas por el servicio', function (){
     // console.log(notificationResponse);
     assert.notEqual(notificationResponse, null);
 });

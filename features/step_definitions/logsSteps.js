@@ -15,8 +15,8 @@ let logs = null;
 Given('Parametros validos para la consulta de logs', function () {
     params = {
         query: '{job="docker"}',
-        start: 1727758800,
-        end: 1730350800,
+        start: 1730302934,
+        end: 1732117334,
         limit: 100,
     };
     });
@@ -63,8 +63,8 @@ Given('Parametros validos con el nombre completo del contenedor {string}', async
 
     params = {
         query: `{job="docker", filename="/var/lib/docker/containers/${containerId}/${containerId}-json.log"}`,
-        start: 1727758800,  // Ajusta estos valores según tu necesidad
-        end: 1730350800,
+        start: 1730302934,
+        end: 1732117334,
         limit: 100,
     };
 });

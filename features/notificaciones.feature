@@ -1,11 +1,14 @@
 Feature: Funcionamiento del microservicio de notificaciones
 
-    Scenario: Yo quiero enviar una notificacion a el servicio de notificaciones
-    Given Tengo el mensaje "notificacion de prueba" y el correo "sebastian.carmonat@uqvirtual.edu.co"
-    When Invoco el servicio para enviar notificaciones
-    Then Se confirma el envio de la notificacion
+    # Precondiciones:
+    # - El servicio "notificaciones" debe estar disponible en el puerto "8080".
+
+    Scenario: Quiero enviar una notificacion para el servicio de notificaciones
+    Given El mensaje "notificacion de prueba" para el usuario con el correo "sebastian.carmonat@uqvirtual.edu.co"
+    When Uso la api del servicio para enviar una notificacion a un usuario
+    Then Se confirma el envio de la notificacion a el usuario
     
-    Scenario: Yo quiero verificar todas las notificaciones guardadas
-    Given Parametros validos para la consulta
-    When Invoco el servicio para obtener las notificaciones
-    Then Se recibe la lista de notificaciones
+    Scenario: Quiero consultar todas la notificaciones enviadas y almacenadas en el servicio de notificaciones
+    Given Parametros validos para la consulta a la api del servicio
+    When Uso la api del servicio para la consulta de todas las notifiaciones
+    Then Se recibe la lista con todas notificaciones guardadas por el servicio
