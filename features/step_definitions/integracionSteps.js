@@ -80,7 +80,7 @@ When('Uso la api del servicio de autenticacion para registrar un nuevo usuario',
                 Authorization: `Bearer ${loginResponse.respuesta.token}`
             }
         }
-        deleteResponse = (await axios.delete(`${url_auth}/api/usuarios/${userCode}`, deleteRequest)).data;
+        // deleteResponse = (await axios.delete(`${url_auth}/api/usuarios/${userCode}`, deleteRequest)).data;
 
     } catch (error) {
         console.log(error);
