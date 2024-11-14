@@ -71,8 +71,9 @@ When('Uso la api del servicio de autenticacion para registrar un nuevo usuario',
                 logs += `Timestamp: ${timestamp}, Log: ${message}\n`;
             });
             });
-        
+        console.log(signResponse);
         loginResponse = (await axios.post(`${url_auth}/api/auth/usuarios/login`, loginRequest)).data;
+        console.log(loginResponse);
         usercode = decode.decodetoken(loginResponse.respuesta.token);
         deleteRequest = {
             headers: {
@@ -82,7 +83,7 @@ When('Uso la api del servicio de autenticacion para registrar un nuevo usuario',
         deleteResponse = (await axios.delete(`${url_auth}/api/usuarios/${userCode}`, deleteRequest)).data;
 
     } catch (error) {
-        
+
     };
 });
 
