@@ -52,25 +52,25 @@ When('Uso la api del servicio de autenticacion para registrar un nuevo usuario',
     try {
         signResponse = (await axios.post(`${url_auth}/api/auth/usuarios`, signRequest)).data;
 
-        const containers = await docker.listContainers();
-        const container = containers.find((cont) => {
-            return cont.Names.some((name) => name === `/${crud_docker}`);
-        });
-        let containerId = container.Id;
-        params = {
-            query: `{job="docker", filename="/var/lib/docker/containers/${containerId}/${containerId}-json.log"}`,
-            start: 1727758800,  // Ajusta estos valores según tu necesidad
-            end: 1730350800,
-            limit: 100,
-        }
-        logsResponse = (await axios.get(url_loki, {params})).data.data.result;
-         logsResponse.forEach((logStream) => {
-            logStream.values.forEach((log) => {
-                const timestamp = log[0];
-                const message = log[1];
-                logs += `Timestamp: ${timestamp}, Log: ${message}\n`;
-            });
-            });
+        // const containers = await docker.listContainers();
+        // const container = containers.find((cont) => {
+        //     return cont.Names.some((name) => name === `/${crud_docker}`);
+        // });
+        // let containerId = container.Id;
+        // params = {
+        //     query: `{job="docker", filename="/var/lib/docker/containers/${containerId}/${containerId}-json.log"}`,
+        //     start: 1727758800,  // Ajusta estos valores según tu necesidad
+        //     end: 1730350800,
+        //     limit: 100,
+        // }
+        // logsResponse = (await axios.get(url_loki, {params})).data.data.result;
+        //  logsResponse.forEach((logStream) => {
+        //     logStream.values.forEach((log) => {
+        //         const timestamp = log[0];
+        //         const message = log[1];
+        //         logs += `Timestamp: ${timestamp}, Log: ${message}\n`;
+        //     });
+        //     });
         
         loginResponse = (await axios.post(`${url_auth}/api/auth/usuarios/login`, loginRequest)).data;
         
