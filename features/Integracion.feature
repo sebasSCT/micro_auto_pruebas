@@ -6,7 +6,7 @@ Feature: Funcionamiento de la integración de todos los servicios como un conjun
     # - El servicio "rabbitmq" debe estar disponible en el puerto "15672".
     # - El servicio "mongo-database" debe estar disponible en el puerto "27017".
 
-    Scenario: Se desea registrar un usuario y comprobar el funcionamiento de los servicios de bases de datos, logs, app-crud y profile management
+    Scenario: Se desea registrar un usuario y comprobar el funcionamiento de los servicios de bases de datos, logs y app-crud
     Given Usuario con sus datos, correo "usuariodeprueba@gmail.com", contraseña "123", nombre "usuario" y apellido "de prueba"
     When Uso la api del servicio de autenticacion para registrar un nuevo usuario
     Then El usuario es registrado correctamente en la base datos del servicio autenticacion
