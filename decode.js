@@ -9,4 +9,13 @@ function decodetoken (token)
     return userId;
 }
 
+function decodeemail (token)
+{
+    const claims = jwt.decode(token);
+    
+    const email = claims.sub;
+    
+    return email;
+}
+
 module.exports = { decodetoken };

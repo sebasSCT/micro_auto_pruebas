@@ -11,4 +11,4 @@ Feature: Funcionamiento del microservicio de notificaciones
     Scenario: Quiero consultar todas la notificaciones enviadas y almacenadas en el servicio de notificaciones
     Given Parametros validos para la consulta a la api del servicio
     When Uso la api del servicio para la consulta de todas las notifiaciones
-    Then Se recibe la lista con todas notificaciones guardadas por el servicio
+    Then Se recibe la lista con todas notificaciones guardadas por el servicio    

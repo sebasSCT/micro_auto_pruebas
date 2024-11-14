@@ -6,7 +6,9 @@ require('dotenv').config();
 const Docker = require('dockerode');
 const docker = new Docker();
 
+const url_auth = process.env.AUTH_URL;
 const url_crud = process.env.BASE_URL;
+const url_pm = process.env.PM_URL;
 const url_loki = `${process.env.LOKI_URL}/loki/api/v1/query_range`;
 const url_prom = process.env.PROMETHEUS_URL;
 const crud_docker = process.env.CONT_CRUD;
@@ -28,12 +30,12 @@ let logs = {};
 let containerName = {};
 let containerId = {};
 
-// Scenario: Se desea registrar un usuario y comprobar el funcionamiento de los servicios de bases de datos y logs centralizados
+// Scenario: Se desea registrar un usuario y comprobar el funcionamiento de los servicios de bases de datos, logs, app-crud y profile management
 
 Given('Usuario con sus datos, correo {string}, contraseña {string}, nombre {string} y apellido {string}', 
     function (email, password, name, lastname) {
         let numeroAleatorio = Math.floor(Math.random() * (9999 - 1 + 1)) + 1;
-        email = email + numeroAleatorio;
+        email = numeroAleatorio + email;
     signRequest = {
         email: email,
         password: password,
@@ -46,9 +48,9 @@ Given('Usuario con sus datos, correo {string}, contraseña {string}, nombre {str
     };
 });
 
-When('Uso la api del servicio app-crud para registrar un nuevo usuario', async function(){
+When('Uso la api del servicio de autenticacion para registrar un nuevo usuario', async function(){
     try {
-        signResponse = (await axios.post(`${url_crud}/api/auth/usuarios`, signRequest)).data;
+        signResponse = (await axios.post(`${url_auth}/api/auth/usuarios`, signRequest)).data;
 
         const containers = await docker.listContainers();
         const container = containers.find((cont) => {
@@ -70,24 +72,34 @@ When('Uso la api del servicio app-crud para registrar un nuevo usuario', async f
             });
             });
         
-        loginResponse = (await axios.post(`${url_crud}/api/auth/usuarios/login`, loginRequest)).data;
+        loginResponse = (await axios.post(`${url_auth}/api/auth/usuarios/login`, loginRequest)).data;
         usercode = decode.decodetoken(loginResponse.respuesta.token);
         deleteRequest = {
             headers: {
                 Authorization: `Bearer ${loginResponse.respuesta.token}`
             }
         }
-        deleteResponse = (await axios.delete(`${url_crud}/api/usuarios/${userCode}`, deleteRequest)).data;
+        deleteResponse = (await axios.delete(`${url_auth}/api/usuarios/${userCode}`, deleteRequest)).data;
 
     } catch (error) {
         
     };
 });
 
-Then ('El usuario es registrado correctamente en la base datos', function (){
+Then ('El usuario es registrado correctamente en la base datos del servicio autenticacion', function (){
     // console.log(loginResponse);
     assert.strictEqual(loginResponse.error, false);
 });
+
+// Then ('El usuario es registrado correctamente en la base datos del servicio app-crud', function (){
+    
+//     assert.strictEqual(loginResponse.error, false);
+// });
+
+// Then ('El usuario es registrado correctamente en la base datos del servicio gestion de perfiles', function (){
+    
+//     assert.strictEqual(loginResponse.error, false);
+// });
 
 Then ('Se generar un log correspondiente al registro en el servicio de logs centralizados', function (){
     // console.log(monitoreoResponse);

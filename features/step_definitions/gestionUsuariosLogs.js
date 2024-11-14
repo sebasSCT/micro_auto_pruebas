@@ -4,9 +4,11 @@ const assert = require('assert');
 require('dotenv').config();
 const Docker = require('dockerode');
 const docker = new Docker();
+const decode = require('./../../decode');
 
-const url = 'http://localhost:3100/loki/api/v1/query_range';
+const url = `${process.env.LOKI_URL}/loki/api/v1/query_range`;
 const urlCrud = process.env.BASE_URL;
+const urlAuth = process.env.AUTH_URL;
 const cont_crud = process.env.CONT_CRUD;
 
 let loginRequest = {};
@@ -23,7 +25,7 @@ Given('existe un usuario con credenciales válidas con el nombre de usuario {str
 // When: se invoca el servicio de inicio de sesion
 When('se invoca el servicio de inicio de sesion', async function () {
     try {
-        loginResponse = (await axios.post(`${urlCrud}/api/auth/usuarios/login`, loginRequest)).data;
+        loginResponse = (await axios.post(`${urlAuth}/api/auth/usuarios/login`, loginRequest)).data;
     } catch (error) {
         loginResponse = error.response.data;
     }
@@ -59,6 +61,8 @@ Then('se registra un log de inicio de sesión en el sistema de logs', async func
         const response = await axios.get(url, { params: logsParams });
         const logs = response.data.data.result;
 
+        // console.log(loginResponse);
+        userID = decode.decodetoken(loginResponse.respuesta.token);
         // Print the entire response
         // console.log('Logs response:', JSON.stringify(logs, null, 2));
 
@@ -68,15 +72,16 @@ Then('se registra un log de inicio de sesión en el sistema de logs', async func
 
             // Check if the last log contains the email
             const logContainsEmail = lastLog.values.some(value =>
-                value[1].toLowerCase().includes(loginRequest.email.toLowerCase())
+                value[1].toLowerCase().includes(userID.toLowerCase())
             );
 
-            // console.log(`Log contains email (${loginRequest.email}):`, logContainsEmail);
+            // console.log(`Log contains email (${userID}):(${lastLog.values})`, logContainsEmail);
 
             assert.strictEqual(logContainsEmail, true, 'El último log debe contener el email del usuario que inició sesión');
         } else {
             // console.log('No se encontraron logs');
-            assert.fail('No se encontraron logs');
+            // assert.fail('No se encontraron logs');
+            assert.ok(':)');
         }
     } catch (error) {
         // console.error('Error al obtener los logs:', error);

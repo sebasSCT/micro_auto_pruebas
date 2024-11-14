@@ -8,13 +8,15 @@ const responseSchema = require('./../../schemas/response_schema.json');
 const decode = require('./../../decode');
 const { faker } = require('@faker-js/faker');
 require('dotenv').config();
-const url = process.env.BASE_URL;
+const url_auth = process.env.AUTH_URL;
 
 let loginRequest = {};
 let loginResponse = {};
 let signRequest = {};
 let signResponse = {};
 let response = {};
+let recoveryRequest = {};
+let recoveryResponse = {};
 
 //Scenario: Yo como usuario registrado quiero poder iniciar sesion
 
@@ -27,7 +29,7 @@ Given('Yo usuario registrado inicio sesión con mis credenciales usuario {string
 
 When('Invoco el sercivicio para inicio de sesion', async function () {
     try {
-        loginResponse = (await axios.post(`${url}/api/auth/usuarios/login`, loginRequest)).data;
+        loginResponse = (await axios.post(`${url_auth}/api/auth/usuarios/login`, loginRequest)).data;
     } catch (error) {
         loginResponse = error.response.data;
     }
@@ -70,7 +72,7 @@ When('Invoco el servicio que permite el registro de nuevos usuarios con un usuar
     deleteStub = sinon.stub(axios, 'delete');
     
     // Simulamos la respuesta del registro de usuario
-    postStub.withArgs(`${url}/api/auth/usuarios`, signRequest).resolves({
+    postStub.withArgs(`${url_auth}/api/auth/usuarios`, signRequest).resolves({
         data: {
             error: false,
             respuesta: { id: 'mocked-user-id' } // ID de usuario simulado
@@ -79,7 +81,7 @@ When('Invoco el servicio que permite el registro de nuevos usuarios con un usuar
 
     // Simulamos el login del usuario registrado
     loginRequest = { email: signRequest.email, password: signRequest.password };
-    postStub.withArgs(`${url}/api/auth/usuarios/login`, loginRequest).resolves({
+    postStub.withArgs(`${url_auth}/api/auth/usuarios/login`, loginRequest).resolves({
         data: {
             error: false,
             respuesta: { token: 'mocked-jwt-token' } // Token JWT simulado
@@ -91,7 +93,7 @@ When('Invoco el servicio que permite el registro de nuevos usuarios con un usuar
     sinon.stub(decode, 'decodetoken').returns(userCode);
 
     // Simulamos la eliminación del usuario
-    deleteStub.withArgs(`${url}/api/usuarios/${userCode}`, sinon.match.any).resolves({
+    deleteStub.withArgs(`${url_auth}/api/usuarios/${userCode}`, sinon.match.any).resolves({
         data: {
             error: false,
             respuesta: "Usuario eliminado correctamente"
@@ -100,7 +102,7 @@ When('Invoco el servicio que permite el registro de nuevos usuarios con un usuar
 
     // Registro del usuario
     try {
-        signResponse = (await axios.post(`${url}/api/auth/usuarios`, signRequest)).data;
+        signResponse = (await axios.post(`${url_auth}/api/auth/usuarios`, signRequest)).data;
     } catch (error) {
         signResponse = error.response.data;
     }
@@ -108,13 +110,13 @@ When('Invoco el servicio que permite el registro de nuevos usuarios con un usuar
     // Si no hubo error en el registro, simulamos el login y la eliminación del usuario
     if (!signResponse.error) {
         try {
-            loginResponse = (await axios.post(`${url}/api/auth/usuarios/login`, loginRequest)).data;
+            loginResponse = (await axios.post(`${url_auth}/api/auth/usuarios/login`, loginRequest)).data;
 
             // Crear los headers para la eliminación usando el token simulado
             const headers = { headers: { Authorization: `Bearer ${loginResponse.respuesta.token}` } };
 
             // Eliminar el usuario con el token
-            deleteResponse = (await axios.delete(`${url}/api/usuarios/${userCode}`, headers)).data;
+            deleteResponse = (await axios.delete(`${url_auth}/api/usuarios/${userCode}`, headers)).data;
         } catch (error) {
             loginResponse = error.response.data;
             deleteResponse = error.response.data;
@@ -141,7 +143,7 @@ When('Invoco el servicio que permite el registro de nuevos usuarios con un usuar
      deleteStub = sinon.stub(axios, 'delete');
  
      // Simulamos un escenario donde el usuario ya está registrado
-     postStub.withArgs(`${url}/api/auth/usuarios`, signRequest).resolves({
+     postStub.withArgs(`${url_auth}/api/auth/usuarios`, signRequest).resolves({
          data: {
              error: true,
              respuesta: 'El usuario ya está registrado'  // Mensaje de error simulado
@@ -150,7 +152,7 @@ When('Invoco el servicio que permite el registro de nuevos usuarios con un usuar
  
      // Simulamos el login del usuario registrado (si fuera necesario para pruebas futuras)
      loginRequest = { email: signRequest.email, password: signRequest.password };
-     postStub.withArgs(`${url}/api/auth/usuarios/login`, loginRequest).resolves({
+     postStub.withArgs(`${url_auth}/api/auth/usuarios/login`, loginRequest).resolves({
          data: {
              error: false,
              respuesta: { token: 'mocked-jwt-token' } // Token JWT simulado
@@ -162,7 +164,7 @@ When('Invoco el servicio que permite el registro de nuevos usuarios con un usuar
      sinon.stub(decode, 'decodetoken').returns(userCode);
  
      // Simulamos la eliminación del usuario (si llegara a necesitarse)
-     deleteStub.withArgs(`${url}/api/usuarios/${userCode}`, sinon.match.any).resolves({
+     deleteStub.withArgs(`${url_auth}/api/usuarios/${userCode}`, sinon.match.any).resolves({
          data: {
              error: false
          }
@@ -170,7 +172,7 @@ When('Invoco el servicio que permite el registro de nuevos usuarios con un usuar
  
      // Intento de registro del usuario (en este caso fallará porque ya está registrado)
      try {
-         signResponse = (await axios.post(`${url}/api/auth/usuarios`, signRequest)).data;
+         signResponse = (await axios.post(`${url_auth}/api/auth/usuarios`, signRequest)).data;
      } catch (error) {
          signResponse = error.response.data;
      }
@@ -203,4 +205,29 @@ Then('El esquema de la respuesta es correcto', function () {
     const validate = ajv.compile(responseSchema);
     const valid = validate(response);
     assert.strictEqual(valid, true);
+});
+
+// Scenario: Quiero recuperar mi cuenta pero no recuerdo la contraseña
+
+Given('Email valido de usuario registrado en el sistema, {string}', function (email) {
+    // Se utiliza Faker.js para generar datos aleatorios
+    recoveryRequest = {
+        email: email 
+    };
+});
+
+When('Uso la api del servicio de autenticacion para enviar un email de recuperacion', async function () {
+    
+    try {
+        
+        recoveryResponse = (await axios.get(`${url_auth}/api/general/email/password/${recoveryRequest.email}`)).data;
+    } catch (error) {
+        recoveryResponse = error.response.data;
+    }
+
+});
+
+Then('El token de acceso es enviado correctamente al email dado', function () {
+    // console.log(recoveryResponse);
+    assert.strictEqual(recoveryResponse.error, false);
 });
