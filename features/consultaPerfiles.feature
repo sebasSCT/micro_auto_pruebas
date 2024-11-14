@@ -9,6 +9,6 @@ Feature: Funcionamiento de las funciones de consulta de perfiles del servicio de
         Then Se obtienen todos los perfiles de usuario creados y guardadados en la base de datos gestion de perfiles
 
     Scenario: Se quiere consultar el perfil de un usuario creado en el servicio de gestion de perfiles
-        Given Usuario con credenciales validas y su codigo de usuario "123"
+        Given Usuario con credenciales validas y su codigo de usuario "6735fff9cf62612bf7145044"
         When Se utiliza el api del servicio para consultar el perfil del usuario dado su codigo
         Then Se obtienen el perfil del usuario creado y guardadado en la base de datos gestion de perfiles

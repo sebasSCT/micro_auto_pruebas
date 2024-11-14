@@ -86,8 +86,8 @@ Given('Usuario no registrado con sus datos, email {string}, contraseña {string}
         
         try {
             loginResponse = (await axios.post(`${url_ag}/api/gateway/usuario/login`, loginRequest)).data;
-            const headers = { headers: { Authorization: `Bearer ${decode.decodetoken(loginResponse.respuesta.token)}` } };
-            deleteResponse = (await axios.delete(`${url_ag}/api/gateway/usuario/${loginResponse.respuesta.token}`, headers)).data;
+            const headers = { headers: { Authorization: `Bearer ${loginResponse.respuesta.token}` } };
+            deleteResponse = (await axios.delete(`${url_ag}/api/gateway/usuario/${decode.decodetoken(loginResponse.respuesta.token)}`, headers)).data;
             
         } catch (error) {
             deleteResponse = error.response.data;
@@ -96,7 +96,7 @@ Given('Usuario no registrado con sus datos, email {string}, contraseña {string}
     });
 
     Then ('El servicio de api gateway elmina correctamente el usuario existente', function (){
-        console.log(deleteResponse);
+        // console.log(deleteResponse);
         assert.strictEqual(deleteResponse.status, 200);
     });
 

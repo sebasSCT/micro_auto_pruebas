@@ -15,4 +15,9 @@ Feature: Funcionamiento del servicio api gateway
         Given Usuario registrado con credenciales validas, email "usuario@example.com", contraseña "password123"
         When Se usa la api del servicio de api gateway para iniciar sesion con un usuario existente
         Then El servicio de api gateway permite iniciar sesion correctamente a el usuario existente
+    
+    # Scenario: Se desea eliminar un usuario existente mediante el uso del servicio de api gateway
+    #     Given Usuario registrado en el sistema con credenciales validas, su correo "hola@gmail" y constraseña "123"
+    #     When Se usa la api del servicio de api gateway para eliminar un usuario existente
+    #     Then El servicio de api gateway elmina correctamente el usuario existente
            
